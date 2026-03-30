@@ -73,22 +73,28 @@
   global.RESERVATION_DATA = buildInterface(FALLBACK_LESSONS);
   document.dispatchEvent(new Event('reservationDataReady'));
 
-  // ── バックグラウンドでスプレッドシートを取得・サイレント更新（JSONP） ────
-  // fetchはiOS Safariでブロックされることがあるため、scriptタグ方式（JSONP）を使用
-  // CORSの制限を受けずiOS含む全ブラウザで動作する
-  global._solaCallback = function (data) {
-    try {
-      if (data && typeof data === 'object' && !Array.isArray(data)) {
-        global.RESERVATION_DATA = buildInterface(data);
-        document.dispatchEvent(new Event('reservationDataUpdated'));
-      }
-    } finally {
-      delete global._solaCallback;
+  // ── バックグラウンドでスプレッドシートを取得・サイレント更新 ────
+  // JSONP（script タグ）は script.google.com → googleusercontent への 302 で
+  // ?callback= が欠落し、生 JSON だけが返ってスクリプトとして実行できないため使わない。
+  // Web アプリの JSON は Access-Control-Allow-Origin: * があるので fetch で問題ない。
+  function applySheetLessons(data) {
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
+      global.RESERVATION_DATA = buildInterface(data);
+      document.dispatchEvent(new Event('reservationDataUpdated'));
     }
-  };
-  var s = document.createElement('script');
-  s.src = APPS_SCRIPT_URL + '?callback=_solaCallback&t=' + Date.now();
-  s.onerror = function () { delete global._solaCallback; }; // 失敗時はフォールバックのまま
-  document.head.appendChild(s);
+  }
+  var sheetUrl = APPS_SCRIPT_URL + '?t=' + Date.now();
+  if (typeof global.fetch === 'function') {
+    global
+      .fetch(sheetUrl, { credentials: 'omit', cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('schedule ' + res.status);
+        return res.json();
+      })
+      .then(applySheetLessons)
+      .catch(function () {
+        /* 取得失敗時はフォールバックのまま */
+      });
+  }
 
 })(typeof window !== 'undefined' ? window : this);
