@@ -171,6 +171,7 @@
     if (state.lesson && !inList) {
       state.lesson = null;
     }
+
     var hasSelectedLesson = false;
     lessons.forEach(function (l) {
       var btn = document.createElement('button');
@@ -215,10 +216,23 @@
     );
   }
 
+  /** LINE公式のチャット起動（oaMessage）が実用的なのは主にスマートフォン */
+  function canUseLineOaDeepLink() {
+    var ua = navigator.userAgent || '';
+    if (/Android|iPhone|iPod/i.test(ua)) return true;
+    if (/iPad/i.test(ua)) return true;
+    if (typeof navigator.platform === 'string' && /iPad/.test(navigator.platform)) return true;
+    try {
+      if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) return true;
+    } catch (e) { /* ignore */ }
+    return false;
+  }
+
   function renderSummaryAndLineLink() {
     var el = document.getElementById('rv-summary');
     var link = document.getElementById('rv-line-link');
     var sub = document.getElementById('rv-line-friend-sub');
+    var hint = document.querySelector('.rv-line-send-hint');
     if (!el || !link) return;
     var storeName = data().getStoreName(state.storeId);
     var visitVal = state.selectedDate ? formatDateLongJa(state.selectedDate) : '';
@@ -246,13 +260,26 @@
     el.appendChild(title);
     el.appendChild(dl);
     var msg = buildLinePasteMessage();
-    link.href = typeof data().buildOaMessageHref === 'function'
-      ? data().buildOaMessageHref(msg)
-      : '#';
-    link.setAttribute('target', '_blank');
-    link.setAttribute('rel', 'noopener noreferrer');
+    var useLineApp = canUseLineOaDeepLink();
+    if (useLineApp && typeof data().buildOaMessageHref === 'function') {
+      link.href = data().buildOaMessageHref(msg);
+      link.textContent = 'LINEで仮予約を完了する';
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+      if (hint) hint.textContent = 'LINEを開いたらそのまま送信';
+    } else {
+      link.href = 'reservation-pc-line.html';
+      link.textContent = 'パソコンからのご案内（友だち追加QR）';
+      link.setAttribute('target', '_self');
+      link.removeAttribute('rel');
+      if (hint) {
+        hint.textContent = 'PC版LINEでは送信まで進めません。下のボタンからQRをご確認ください。';
+      }
+    }
     if (sub && typeof data().getLineUrl === 'function') {
-      sub.href = data().getLineUrl(state.storeId) || 'https://lin.ee/sQ5iTts';
+      sub.href = useLineApp
+        ? (data().getLineUrl(state.storeId) || 'https://lin.ee/sQ5iTts')
+        : 'reservation-pc-line.html';
     }
   }
 

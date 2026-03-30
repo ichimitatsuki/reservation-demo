@@ -54,21 +54,6 @@
   color: var(--rv-color-text-muted);
 }
 
-.rv-header-inner {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.rv-sp-notice {
-  margin: 6px 0 0;
-  padding: 0;
-  font-size: 13px;
-  color: var(--rv-color-text-muted);
-  text-align: center;
-  letter-spacing: 0.12em;
-}
-
 .rv-main {
   flex: 1;
 }
@@ -174,12 +159,9 @@
   text-align: center;
 }
 
-/* タッチデバイス（iOS Safari等）でのホバー状態持続を防ぐ */
-@media (hover: hover) {
-  .rv-option-btn:hover {
-    border-color: var(--rv-color-primary);
-    background: #fefaf6;
-  }
+.rv-option-btn:hover {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
 }
 
 .rv-option-btn.is-selected {
@@ -221,11 +203,9 @@
   box-sizing: border-box;
 }
 
-@media (hover: hover) {
-  .rv-lesson-btn:hover {
-    border-color: var(--rv-color-primary);
-    background: #fefaf6;
-  }
+.rv-lesson-btn:hover {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
 }
 
 .rv-lesson-btn.is-selected {
@@ -530,4 +510,68 @@
   .rv-option-btn {
     max-width: 200px;
   }
+}
+
+/* PC向け：LINE案内ページ */
+.rv-pc-line-main {
+  padding-bottom: 32px;
+}
+
+.rv-pc-line-lead {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--rv-color-text);
+}
+
+.rv-pc-line-lead strong {
+  color: var(--rv-color-primary-dark);
+  font-weight: 600;
+}
+
+.rv-pc-line-section {
+  margin: 0 0 24px;
+  padding: 20px 16px;
+  background: var(--rv-color-bg);
+  border: 1px solid var(--rv-color-border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.rv-pc-line-subtitle {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--rv-font-hand);
+  color: var(--rv-color-gold);
+}
+
+.rv-pc-qr-wrap {
+  margin: 16px auto 0;
+  max-width: 260px;
+}
+
+.rv-pc-qr {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.rv-pc-line-note {
+  margin: 0 0 24px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--rv-color-text-muted);
+}
+
+.rv-pc-line-note strong {
+  color: var(--rv-color-text);
+  font-weight: 600;
+}
+
+.rv-pc-line-actions {
+  margin-top: 8px;
 }
