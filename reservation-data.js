@@ -75,7 +75,8 @@
 
   // ── バックグラウンドでスプレッドシートを取得・サイレント更新 ────
   // fetchが完了するとSTEP3のレッスン選択から最新データが使われる
-  fetch(APPS_SCRIPT_URL)
+  // ?t= でキャッシュを回避（GoogleのCDNがレスポンスをキャッシュするため）
+  fetch(APPS_SCRIPT_URL + '?t=' + Date.now())
     .then(function (res) { return res.json(); })
     .then(function (data) { global.RESERVATION_DATA = buildInterface(data); })
     .catch(function () { /* フォールバックのまま継続 */ });
