@@ -4,10 +4,8 @@
 (function () {
   'use strict';
 
-  var DATA = window.RESERVATION_DATA;
-  if (!DATA) {
-    console.error('reservation-data.js を先に読み込んでください');
-    return;
+  function data() {
+    return window.RESERVATION_DATA;
   }
 
   var WEEKDAY_JP = ['日', '月', '火', '水', '木', '金', '土'];
@@ -90,7 +88,7 @@
     var container = document.getElementById('rv-store-options');
     if (!container) return;
     container.innerHTML = '';
-    var stores = DATA.getStores();
+    var stores = data().getStores();
     Object.keys(stores).forEach(function (id) {
       var s = stores[id];
       var btn = document.createElement('button');
@@ -162,11 +160,11 @@
     var sub = document.getElementById('rv-lesson-step-sub');
     var list = document.getElementById('rv-lesson-list');
     if (!sub || !list) return;
-    var storeName = DATA.getStoreName(state.storeId);
+    var storeName = data().getStoreName(state.storeId);
     var datePart = state.selectedDate ? formatDateShortJa(parseYMD(state.selectedDate)) : '';
     sub.textContent = storeName + '・' + datePart + 'のレッスン';
     list.innerHTML = '';
-    var lessons = DATA.getLessons(state.storeId, state.dayOfWeek);
+    var lessons = data().getLessons(state.storeId, state.dayOfWeek);
     var inList = lessons.some(function (l) {
       return lessonEqual(state.lesson, l);
     });
@@ -201,7 +199,7 @@
   }
 
   function buildLinePasteMessage() {
-    var storeName = DATA.getStoreName(state.storeId);
+    var storeName = data().getStoreName(state.storeId);
     var visitLine = state.selectedDate ? formatDateLongJa(state.selectedDate) : '';
     var lesson = state.lesson;
     var time = lesson ? lesson.time : '';
@@ -222,7 +220,7 @@
     var link = document.getElementById('rv-line-link');
     var sub = document.getElementById('rv-line-friend-sub');
     if (!el || !link) return;
-    var storeName = DATA.getStoreName(state.storeId);
+    var storeName = data().getStoreName(state.storeId);
     var visitVal = state.selectedDate ? formatDateLongJa(state.selectedDate) : '';
     var lesson = state.lesson;
     var rows = [
@@ -248,13 +246,13 @@
     el.appendChild(title);
     el.appendChild(dl);
     var msg = buildLinePasteMessage();
-    link.href = typeof DATA.buildOaMessageHref === 'function'
-      ? DATA.buildOaMessageHref(msg)
+    link.href = typeof data().buildOaMessageHref === 'function'
+      ? data().buildOaMessageHref(msg)
       : '#';
     link.setAttribute('target', '_blank');
     link.setAttribute('rel', 'noopener noreferrer');
-    if (sub && typeof DATA.getLineUrl === 'function') {
-      sub.href = DATA.getLineUrl(state.storeId) || 'https://lin.ee/sQ5iTts';
+    if (sub && typeof data().getLineUrl === 'function') {
+      sub.href = data().getLineUrl(state.storeId) || 'https://lin.ee/sQ5iTts';
     }
   }
 
@@ -345,14 +343,32 @@
     bindNavigation();
   }
 
-  // reservation-data.js が先に読み込まれ RESERVATION_DATA が既にセット済みの場合は直接 init()
-  // スクリプト読み込み順によってはイベントが先に発火しているため、両方に対応する
-  if (window.RESERVATION_DATA) {
-    init();
-  } else {
-    document.addEventListener('reservationDataReady', function () {
-      DATA = window.RESERVATION_DATA;
-      init();
-    });
+  function onScheduleUpdated() {
+    var step = getCurrentStep();
+    if (step === 3) renderLessonList();
+    if (step === 6) renderSummaryAndLineLink();
   }
+
+  function startApp() {
+    if (!data()) {
+      console.error('reservation-data.js を先に読み込んでください');
+      return;
+    }
+    init();
+    document.addEventListener('reservationDataUpdated', onScheduleUpdated);
+  }
+
+  function kickOff() {
+    if (!data()) {
+      document.addEventListener('reservationDataReady', kickOff, { once: true });
+      return;
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startApp, { once: true });
+    } else {
+      startApp();
+    }
+  }
+
+  kickOff();
 })();

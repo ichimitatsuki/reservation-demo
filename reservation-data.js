@@ -77,8 +77,14 @@
   // fetchはiOS Safariでブロックされることがあるため、scriptタグ方式（JSONP）を使用
   // CORSの制限を受けずiOS含む全ブラウザで動作する
   global._solaCallback = function (data) {
-    global.RESERVATION_DATA = buildInterface(data);
-    delete global._solaCallback;
+    try {
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        global.RESERVATION_DATA = buildInterface(data);
+        document.dispatchEvent(new Event('reservationDataUpdated'));
+      }
+    } finally {
+      delete global._solaCallback;
+    }
   };
   var s = document.createElement('script');
   s.src = APPS_SCRIPT_URL + '?callback=_solaCallback&t=' + Date.now();
