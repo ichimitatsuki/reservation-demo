@@ -269,7 +269,8 @@
       if (hint) hint.textContent = 'LINEを開いたらそのまま送信';
     } else {
       link.href = 'reservation-pc-line.html';
-      link.textContent = 'LINEお友だち追加';
+      while (link.firstChild) link.removeChild(link.firstChild);
+      link.appendChild(document.createTextNode('LINEお友だち追加'));
       link.setAttribute('target', '_self');
       link.removeAttribute('rel');
       if (hint) {
