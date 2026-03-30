@@ -69,16 +69,15 @@
     };
   }
 
-  // ── データ準備完了を通知 ──────────────────────────────────
-  function dispatch(lessons) {
-    global.RESERVATION_DATA = buildInterface(lessons);
-    document.dispatchEvent(new Event('reservationDataReady'));
-  }
+  // ── フォールバックで即座に初期化（ボタンを必ず表示） ────
+  global.RESERVATION_DATA = buildInterface(FALLBACK_LESSONS);
+  document.dispatchEvent(new Event('reservationDataReady'));
 
-  // ── スプレッドシートから取得、失敗時はフォールバック ─────
+  // ── バックグラウンドでスプレッドシートを取得・サイレント更新 ────
+  // fetchが完了するとSTEP3のレッスン選択から最新データが使われる
   fetch(APPS_SCRIPT_URL)
     .then(function (res) { return res.json(); })
-    .then(function (data) { dispatch(data); })
-    .catch(function () { dispatch(FALLBACK_LESSONS); });
+    .then(function (data) { global.RESERVATION_DATA = buildInterface(data); })
+    .catch(function () { /* フォールバックのまま継続 */ });
 
 })(typeof window !== 'undefined' ? window : this);
