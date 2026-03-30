@@ -73,12 +73,16 @@
   global.RESERVATION_DATA = buildInterface(FALLBACK_LESSONS);
   document.dispatchEvent(new Event('reservationDataReady'));
 
-  // ── バックグラウンドでスプレッドシートを取得・サイレント更新 ────
-  // fetchが完了するとSTEP3のレッスン選択から最新データが使われる
-  // ?t= でキャッシュを回避（GoogleのCDNがレスポンスをキャッシュするため）
-  fetch(APPS_SCRIPT_URL + '?t=' + Date.now())
-    .then(function (res) { return res.json(); })
-    .then(function (data) { global.RESERVATION_DATA = buildInterface(data); })
-    .catch(function () { /* フォールバックのまま継続 */ });
+  // ── バックグラウンドでスプレッドシートを取得・サイレント更新（JSONP） ────
+  // fetchはiOS Safariでブロックされることがあるため、scriptタグ方式（JSONP）を使用
+  // CORSの制限を受けずiOS含む全ブラウザで動作する
+  global._solaCallback = function (data) {
+    global.RESERVATION_DATA = buildInterface(data);
+    delete global._solaCallback;
+  };
+  var s = document.createElement('script');
+  s.src = APPS_SCRIPT_URL + '?callback=_solaCallback&t=' + Date.now();
+  s.onerror = function () { delete global._solaCallback; }; // 失敗時はフォールバックのまま
+  document.head.appendChild(s);
 
 })(typeof window !== 'undefined' ? window : this);
