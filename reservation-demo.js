@@ -345,6 +345,14 @@
     bindNavigation();
   }
 
-  // reservation-data.js がスプレッドシートの取得完了後に発火するイベントを待つ
-  document.addEventListener('reservationDataReady', init);
+  // reservation-data.js が先に読み込まれ RESERVATION_DATA が既にセット済みの場合は直接 init()
+  // スクリプト読み込み順によってはイベントが先に発火しているため、両方に対応する
+  if (window.RESERVATION_DATA) {
+    init();
+  } else {
+    document.addEventListener('reservationDataReady', function () {
+      DATA = window.RESERVATION_DATA;
+      init();
+    });
+  }
 })();
