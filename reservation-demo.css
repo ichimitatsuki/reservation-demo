@@ -174,9 +174,12 @@
   text-align: center;
 }
 
-.rv-option-btn:hover {
-  border-color: var(--rv-color-primary);
-  background: #fefaf6;
+/* タッチデバイス（iOS Safari等）でのホバー状態持続を防ぐ */
+@media (hover: hover) {
+  .rv-option-btn:hover {
+    border-color: var(--rv-color-primary);
+    background: #fefaf6;
+  }
 }
 
 .rv-option-btn.is-selected {
@@ -218,9 +221,11 @@
   box-sizing: border-box;
 }
 
-.rv-lesson-btn:hover {
-  border-color: var(--rv-color-primary);
-  background: #fefaf6;
+@media (hover: hover) {
+  .rv-lesson-btn:hover {
+    border-color: var(--rv-color-primary);
+    background: #fefaf6;
+  }
 }
 
 .rv-lesson-btn.is-selected {
