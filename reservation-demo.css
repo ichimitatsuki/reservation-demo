@@ -560,18 +560,6 @@
   border-radius: 4px;
 }
 
-.rv-pc-line-note {
-  margin: 0 0 24px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--rv-color-text-muted);
-}
-
-.rv-pc-line-note strong {
-  color: var(--rv-color-text);
-  font-weight: 600;
-}
-
 .rv-pc-line-actions {
   margin-top: 8px;
 }
