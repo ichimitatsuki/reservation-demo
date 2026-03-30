@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>体験予約（仮）｜岩盤ホットヨガスタジオ ソラ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="reservation-demo.css">
+</head>
+<body class="rv-body">
+  <div class="rv-wrap">
+    <header class="rv-header">
+      <div class="rv-header-inner">
+        <h1 class="rv-header-title">体験予約（仮予約）</h1>
+        <p class="rv-sp-notice">- スマートフォン専用 -</p>
+      </div>
+    </header>
+
+    <main class="rv-main">
+      <!-- STEP1 店舗選択 -->
+      <section class="rv-step is-current" data-step="1" id="rv-step-1">
+        <h2 class="rv-step-title">STEP1 店舗を選ぶ</h2>
+        <div class="rv-options rv-store-options" id="rv-store-options" role="group" aria-label="店舗選択">
+          <!-- JSで挿入: 名駅店 / 栄店 -->
+        </div>
+      </section>
+
+      <!-- STEP2 日付選択（直近14日） -->
+      <section class="rv-step" data-step="2" id="rv-step-2">
+        <h2 class="rv-step-title">STEP2 日付を選ぶ</h2>
+        <p class="rv-step-sub rv-step-sub--muted">今日から2週間以内の来店希望日をお選びください</p>
+        <div class="rv-options rv-date-options rv-day-options" id="rv-date-options" role="group" aria-label="日付選択">
+          <!-- JSで挿入 -->
+        </div>
+        <div class="rv-step-actions">
+          <button type="button" class="rv-btn rv-btn-back" id="rv-back-2">戻る</button>
+          <button type="button" class="rv-btn rv-btn-next" id="rv-next-2" disabled>次へ</button>
+        </div>
+      </section>
+
+      <!-- STEP3 レッスン選択 -->
+      <section class="rv-step" data-step="3" id="rv-step-3">
+        <h2 class="rv-step-title">STEP3 レッスンを選ぶ</h2>
+        <p class="rv-step-sub" id="rv-lesson-step-sub"></p>
+        <div class="rv-lesson-list" id="rv-lesson-list" role="group" aria-label="レッスン選択">
+          <!-- JSで挿入 -->
+        </div>
+        <div class="rv-step-actions">
+          <button type="button" class="rv-btn rv-btn-back" id="rv-back-3">戻る</button>
+          <button type="button" class="rv-btn rv-btn-next" id="rv-next-3" disabled>次へ</button>
+        </div>
+      </section>
+
+      <!-- STEP4 名前 -->
+      <section class="rv-step" data-step="4" id="rv-step-4">
+        <h2 class="rv-step-title">STEP4 お名前</h2>
+        <form class="rv-form" id="rv-form-name">
+          <label class="rv-label" for="rv-input-name">お名前（必須）</label>
+          <input type="text" class="rv-input" id="rv-input-name" name="name" placeholder="山田 花子" required autocomplete="name">
+        </form>
+        <div class="rv-step-actions">
+          <button type="button" class="rv-btn rv-btn-back" id="rv-back-4">戻る</button>
+          <button type="button" class="rv-btn rv-btn-next" id="rv-next-4">次へ</button>
+        </div>
+      </section>
+
+      <!-- STEP5 電話番号 -->
+      <section class="rv-step" data-step="5" id="rv-step-5">
+        <h2 class="rv-step-title">STEP5 電話番号</h2>
+        <form class="rv-form" id="rv-form-tel">
+          <label class="rv-label" for="rv-input-tel">電話番号（必須）</label>
+          <input type="tel" class="rv-input" id="rv-input-tel" name="tel" placeholder="090-1234-5678" required autocomplete="tel">
+        </form>
+        <div class="rv-step-actions">
+          <button type="button" class="rv-btn rv-btn-back" id="rv-back-5">戻る</button>
+          <button type="button" class="rv-btn rv-btn-primary" id="rv-submit">次へ</button>
+        </div>
+      </section>
+
+      <!-- STEP6 LINE送信前の最終確認 -->
+      <section class="rv-step" data-step="6" id="rv-step-6">
+        <h2 class="rv-step-title">まだ仮予約は完了していません</h2>
+        <div class="rv-complete-message">
+          <p>
+            LINEボタンを押すと、ご予約内容が<br>
+            チャットに自動入力されます。
+          </p>
+          <p>
+            内容をご確認のうえ、<br>
+            送信してください。
+          </p>
+          <p class="rv-note">※まだ予約は完了していません</p>
+          <p>スタッフがご予約内容を確認のうえ、空き状況を確認後、予約確定のご連絡をいたします。</p>
+        </div>
+        <div class="rv-summary" id="rv-summary"></div>
+        <div class="rv-step-actions rv-step-actions--column">
+          <p class="rv-line-send-hint">LINEを開いたらそのまま送信</p>
+          <a href="#" class="rv-btn rv-btn-line" id="rv-line-link" target="_blank" rel="noopener noreferrer">LINEで仮予約を完了する</a>
+          <button type="button" class="rv-btn rv-btn-back" id="rv-reset-demo">最初からやり直す</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="reservation-data.js"></script>
+  <script src="reservation-demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,528 @@
+/**
+ * 予約デモ PoC 用スタイル（rv- プレフィックスのみ・既存クラスは一切上書きしない）
+ * 既存LPのトーンに合わせた変数を当ファイル内で定義
+ */
+:root {
+  --rv-color-primary: #d4a574;
+  --rv-color-primary-dark: #b88752;
+  --rv-color-gold: #c9a961;
+  --rv-color-text: #333;
+  --rv-color-text-muted: #666;
+  --rv-color-bg: #fff;
+  --rv-color-border: #e5e5e5;
+  --rv-color-text-inverse: #fff;
+  --rv-font-en: 'Jost', sans-serif;
+  --rv-font-hand: 'Zen Maru Gothic', sans-serif;
+}
+
+.rv-body {
+  margin: 0;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  color: var(--rv-color-text);
+  background-color: #fafafa;
+  line-height: 1.6;
+}
+
+.rv-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.rv-header {
+  padding: 20px 0 24px;
+  border-bottom: 1px solid var(--rv-color-border);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.rv-header-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--rv-font-en);
+  color: var(--rv-color-gold);
+}
+
+.rv-header-lead {
+  margin: 0;
+  font-size: 13px;
+  color: var(--rv-color-text-muted);
+}
+
+.rv-header-inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.rv-sp-notice {
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--rv-color-text-muted);
+  text-align: center;
+  letter-spacing: 0.12em;
+}
+
+.rv-main {
+  flex: 1;
+}
+
+/* ステップ：表示は .is-current のときのみ */
+.rv-step {
+  display: none;
+  padding: 0 0 32px;
+}
+
+.rv-step.is-current {
+  display: block;
+}
+
+.rv-step-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--rv-font-en);
+  color: var(--rv-color-text);
+  text-align: center;
+}
+
+.rv-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.rv-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rv-color-border);
+  flex-shrink: 0;
+}
+
+.rv-dot.is-active {
+  width: 10px;
+  height: 10px;
+  background: var(--rv-color-primary);
+}
+
+.rv-step-sub {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--rv-color-text-muted);
+  text-align: center;
+}
+
+.rv-step-sub--muted {
+  margin-top: -8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+/* 選択肢エリア（店舗・曜日） */
+.rv-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.rv-day-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.rv-date-options {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rv-option-btn--date {
+  width: auto;
+  min-width: 6.5em;
+  max-width: none;
+  flex: 0 0 auto;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.rv-option-btn {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--rv-color-text);
+  background: var(--rv-color-bg);
+  border: 2px solid var(--rv-color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.rv-option-btn:hover {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
+}
+
+.rv-option-btn.is-selected {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
+  color: var(--rv-color-primary-dark);
+}
+
+.rv-option-btn.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.rv-option-btn.is-disabled:hover {
+  border-color: var(--rv-color-border);
+  background: var(--rv-color-bg);
+}
+
+/* レッスン一覧 */
+.rv-lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.rv-lesson-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  text-align: left;
+  color: var(--rv-color-text);
+  background: var(--rv-color-bg);
+  border: 2px solid var(--rv-color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.rv-lesson-btn:hover {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
+}
+
+.rv-lesson-btn.is-selected {
+  border-color: var(--rv-color-primary);
+  background: #fefaf6;
+  color: var(--rv-color-primary-dark);
+}
+
+.rv-lesson-btn .rv-lesson-time {
+  display: inline-block;
+  min-width: 4em;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* フォーム */
+.rv-form {
+  margin-bottom: 24px;
+}
+
+.rv-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rv-color-text);
+}
+
+.rv-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid var(--rv-color-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.rv-input::placeholder {
+  color: #aaa;
+}
+
+.rv-input:focus {
+  outline: none;
+  border-color: var(--rv-color-primary);
+}
+
+/* ボタン */
+.rv-step-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.rv-step-actions--column {
+  flex-direction: column;
+  align-items: center;
+}
+
+.rv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 40px;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.rv-btn:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.rv-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rv-btn-back {
+  background: var(--rv-color-bg);
+  color: var(--rv-color-primary);
+  border: 1px solid var(--rv-color-primary);
+}
+
+.rv-btn-back:hover:not(:disabled) {
+  background-color: var(--rv-color-primary);
+  color: var(--rv-color-text-inverse);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 165, 116, 0.2);
+}
+
+.rv-btn-back:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.rv-btn-next,
+.rv-btn-primary {
+  border: 1px solid var(--rv-color-primary);
+  background-color: var(--rv-color-primary);
+  color: var(--rv-color-text-inverse);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.rv-btn-next:hover:not(:disabled),
+.rv-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 165, 116, 0.25);
+}
+
+.rv-btn-next:active:not(:disabled),
+.rv-btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.rv-line-cta {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: #333;
+}
+
+.rv-line-send-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--rv-color-primary-dark);
+  text-align: center;
+}
+
+.rv-btn-line {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 376px;
+  min-height: 80px;
+  padding: 15px 52px !important;
+  margin: 0 auto;
+  font-size: 21px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  white-space: normal;
+  text-align: center;
+  color: #fff !important;
+  text-decoration: none !important;
+  border: none;
+  border-radius: 100px;
+  border-bottom: 5px solid #007700;
+  background: linear-gradient(180deg, #00c300 0%, #009900 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.rv-btn-line:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.rv-btn-line:active:not(:disabled) {
+  transform: scale(0.98);
+  filter: brightness(0.98);
+}
+
+@media (min-width: 769px) {
+  .rv-btn-line {
+    max-width: 450px;
+    padding: 12px 40px !important;
+    font-size: 18px;
+    min-height: 72px;
+  }
+}
+
+/* STEP6 説明（LINE送信前） */
+.rv-complete-message {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--rv-color-text);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.rv-complete-message p {
+  line-height: 1.8;
+  text-align: center;
+  max-width: 320px;
+  margin: 0 auto 14px;
+}
+
+.rv-complete-message p:last-child {
+  margin-bottom: 0;
+}
+
+.rv-complete-message .rv-note {
+  max-width: 300px;
+  margin: 16px auto;
+  line-height: 1.7;
+  text-align: center;
+  font-weight: 600;
+  padding: 12px 14px;
+  color: var(--rv-color-text);
+  background: #f0ebe3;
+  border-radius: 8px;
+  border-left: 3px solid var(--rv-color-primary);
+  box-sizing: border-box;
+}
+
+.rv-summary {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--rv-color-bg);
+  border: 1px solid var(--rv-color-border);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.rv-summary-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--rv-color-text-muted);
+  text-align: center;
+}
+
+.rv-summary dl {
+  margin: 0;
+  display: grid;
+  gap: 6px 12px;
+}
+
+.rv-summary dt {
+  margin: 0;
+  font-weight: 600;
+  color: var(--rv-color-text-muted);
+  grid-column: 1;
+}
+
+.rv-summary dd {
+  margin: 0;
+  grid-column: 2;
+}
+
+.rv-line-sub-link {
+  display: block;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--rv-color-text-muted);
+  text-align: center;
+  text-decoration: underline;
+}
+
+.rv-line-sub-link:hover {
+  color: var(--rv-color-primary);
+}
+
+.rv-footer-lp {
+  margin: 28px 0 0;
+  padding: 0;
+  text-align: center;
+}
+
+.rv-footer-lp-link {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: underline;
+}
+
+.rv-footer-lp-link:hover {
+  color: var(--rv-color-text-muted);
+}
+
+@media (min-width: 769px) {
+  .rv-wrap {
+    padding: 24px;
+  }
+  .rv-header-title {
+    font-size: 22px;
+  }
+  .rv-step-title {
+    font-size: 20px;
+  }
+  .rv-option-btn {
+    max-width: 200px;
+  }
+}
